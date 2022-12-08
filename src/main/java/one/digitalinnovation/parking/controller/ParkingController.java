@@ -1,7 +1,9 @@
 package one.digitalinnovation.parking.controller;
 
 
+import one.digitalinnovation.parking.controller.dto.ParkingDTO;
 import one.digitalinnovation.parking.model.Parking;
+import one.digitalinnovation.parking.service.ParkingService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,16 +15,15 @@ import java.util.List;
 @RequestMapping("/parking")
 public class ParkingController {
 
+    private final ParkingService parkingService;
+
+    public ParkingController(ParkingService parkingService) {
+        this.parkingService = parkingService;
+    }
+
     @GetMapping
-    public List<Parking> findAll() {
-
-        var parking = new Parking();
-        parking.setColor("PRETO");
-        parking.setLicence("MSS-1111");
-        parking.setModel("VW GOL");
-        parking.setState("SP");
-
-        return Arrays.asList(parking);
+    public List<ParkingDTO> findAll() {
+        return parkingService.findAll();
 
     }
 
