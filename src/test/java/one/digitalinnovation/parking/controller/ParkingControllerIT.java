@@ -10,33 +10,30 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ParkingControllerIT {
 
     @LocalServerPort
     private int randomPort;
+
+
     @BeforeEach
     public void setUpTest() {
         RestAssured.port = randomPort;
     }
 
     @Test
-    void whenfindAllThenResult() {
-
+    void whenFindAllThenCheckResult() {
         RestAssured.given()
+                .auth().basic("user", "12345")
                 .when()
                 .get("/parking")
                 .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("licence[0]", Matchers.equalTo("WAS-1234"));
-                //.extract().response().body().prettyPrint();  para verificar como está vindo os dados
+                .statusCode(HttpStatus.OK.value());
     }
 
     @Test
     void whenCreateThenCheckIsCreated() {
-
         var createDTO = new ParkingCreateDTO();
         createDTO.setColor("AMARELO");
         createDTO.setLicence("WRT-5555");
@@ -45,14 +42,15 @@ class ParkingControllerIT {
 
         RestAssured.given()
                 .when()
+                .auth().basic("user", "12345")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(createDTO)
-                .post("parking/")
+                .post("/parking")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
-                .body("licence", Matchers.equalTo("WRT-5555"))
                 .body("color", Matchers.equalTo("AMARELO"))
                 .body("model", Matchers.equalTo("BRASILIA"))
-                .body("state", Matchers.equalTo("SP"));
+                .body("state", Matchers.equalTo("SP"))
+                .body("licence", Matchers.equalTo("WRT-5555"));
     }
 }
