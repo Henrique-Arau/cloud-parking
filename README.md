@@ -8,12 +8,12 @@ Os dados deverão ser cadastrados em um banco de dados relacional.
 Esta API será exposta na nuvem, porém com controle de acesso.
 
 
-#Detalhando os requisitos
+# Detalhando os requisitos
 
 Nosso sistema será bem simples na primeira versão:
 
 * Não teremos cadastro de clientes. Nosso cliente é o automóvel onde guardamos os seguintes dados:
-#Placa, Modelo e Cor.
+# Placa, Modelo e Cor.
 
 * Armazenaremos a data e hora de entrada para podermos calcular o valor na saída.
 
