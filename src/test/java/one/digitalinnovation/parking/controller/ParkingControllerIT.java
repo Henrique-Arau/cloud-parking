@@ -23,7 +23,7 @@ class ParkingControllerIT {
     }
 
     @Test
-    void findAll() {
+    void whenfindAllThenResult() {
 
         RestAssured.given()
                 .when()
