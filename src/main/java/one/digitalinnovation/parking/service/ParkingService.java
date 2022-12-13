@@ -3,6 +3,7 @@ package one.digitalinnovation.parking.service;
 
 import one.digitalinnovation.parking.exception.ParkingNotFoundException;
 import one.digitalinnovation.parking.model.Parking;
+import one.digitalinnovation.parking.repository.ParkingRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 @Service
 public class ParkingService {
 
+    private final ParkingRepository parkingRepository;
+
     private static Map<String, Parking> parkingMap = new HashMap();
 
     static {
@@ -24,6 +27,10 @@ public class ParkingService {
         Parking parking1 = new Parking(id1, "WAS-1234", "SP", "VW GOL", "VERMELHO");
         parkingMap.put(id, parking);
         parkingMap.put(id1, parking1);
+    }
+
+    public ParkingService(ParkingRepository parkingRepository) {
+        this.parkingRepository = parkingRepository;
     }
 
     public List<Parking> findAll() {
@@ -64,10 +71,10 @@ public class ParkingService {
         return parking;
     }
 
-    public Parking exit(String id) {
-        //recuperar o estacionamento
-        //atualizar data de saida
-        //calcular o valor
-        return null;
+    public Parking checkOut(String id) {
+        Parking parking = findById(id);
+        parking.setExitDate(LocalDateTime.now());
+        parking.setBill(ParkingCheckOut.getBill(parking));
+        return parkingRepository.save(parking);
     }
 }
