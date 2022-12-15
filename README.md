@@ -18,3 +18,6 @@ Nosso sistema será bem simples na primeira versão:
 * Armazenaremos a data e hora de entrada para podermos calcular o valor na saída.
 
 * Teremos apenas um tipo de usuário no sistema que será o operador do estacionamento.
+
+# Banco de dados usado 
+base de dados do H2
